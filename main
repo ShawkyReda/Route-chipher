@@ -1,0 +1,120 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+void Routecipher()
+{
+    cout << "Please enter message to encrypt\n";
+    string message,message1;
+    int len,sz;
+    cin.ignore();
+    getline(cin,message);
+    // Remove spaces and numbers and convert letters to capital letters
+    for(char i : message){
+        if(std::isalpha(i)){
+            message1+=toupper(i);
+        }
+    }
+    //Determine the message length to calculate the number of rows
+    len=message1.size();
+    if(len%3==0){
+        sz=len/3;
+    }else{
+        sz=(len/3)+1;
+    }
+    //Fill the array with elements and add 'x' in the empty cells
+    char matrix[sz][3];
+    int index = 0;
+    for(int i=0;i<sz;++i) {
+        for (int j = 0; j < 3; ++j) {
+
+            if (index < len) {
+                matrix[i][j] = message1[index++];
+            } else {
+                matrix[i][j] = 'x';
+            }
+        }
+    }
+    // print list column
+    for(int i=0;i<sz;++i){
+        cout<<matrix[i][2];
+    }
+    // Print the last row (excluding the element that is shared with the last column)
+    for(int j=1;j >=0;--j){
+        cout<<matrix[sz-1][j];
+    }
+    //Print the first column (excluding the element that is shared with the last row)
+    for(int i=sz-2;i>=0;--i){
+        cout<<matrix[i][0];
+    }
+    int j=1;
+    cout<<matrix[0][j];
+    // Prints the second column (excluding elements in common with the first and last rows)
+    for(int i=1;i<sz-1;++i){
+        cout<<matrix[i][1] ;
+    }
+}
+void Routedecipher()
+{
+    string message,new_message;
+    int len, sz,index=0;
+    cout << "Enter encrypted message to decrypt\n";
+    cin.ignore();
+    getline(cin, message);
+    //Determine the message length to calculate the number of rows
+    len = message.size();
+    sz = len / 3;
+    // Declare matrix
+    char matrix[sz][3];
+    // Fill list column
+    for(int i=0;i<sz;++i){
+        if(index<len){
+            matrix[i][2]=message[index++];
+        }
+    }
+    // Fill the last row (excluding the element that is shared with the last column)
+    for(int j=1;j >=0;--j){
+        matrix[sz-1][j]=message[index++];
+    }
+    //Fill the first column (excluding the element that is shared with the last row)
+    for(int i=sz-2;i>=0;--i){
+        matrix[i][0]=message[index++];
+    }
+    int j=1;
+    matrix[0][j]=message[index++];
+    //Fill the second column (excluding elements in common with the first and last rows)
+    for(int i=1;i<sz-1;++i){
+        matrix[i][1]=message[index++];
+    }
+    //Print matrix
+    vector <char> v;
+    cout << "The original message is(without Xs): ";
+    for (int i = 0; i < sz; ++i) {
+        for (int j = 0; j < 3; ++j) {
+        char c = matrix[i][j];
+            if (c != 'x') {
+                cout << matrix[i][j] ;
+            }
+
+
+
+        }
+    }
+}
+int main() {
+    int choice;
+
+
+        cout << "Welcome to Route cipher !\nPlease enter your choice:\n1)Encryption\n2)Decryption\n3)Exit\n";
+        cin >> choice;
+        if (choice == 1) {
+            Routecipher();
+        }
+        else if (choice == 2) {
+            Routedecipher();
+        }
+        else {
+            cout << "Invalid choice\n";
+        }
+    }
+
+
